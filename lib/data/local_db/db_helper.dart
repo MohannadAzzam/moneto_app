@@ -12,7 +12,7 @@ class DbHelper {
     return _db;
   }
 
-  initDb() async {
+  Future<Database> initDb() async {
     String databasePath = await getDatabasesPath();
     String path = join(databasePath, 'moneto.db');
 

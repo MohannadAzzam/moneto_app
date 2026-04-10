@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moneto_app/constants/strings.dart';
+import 'package:moneto_app/core/localization/app_localizations.dart';
 import 'package:moneto_app/functions/my_functions.dart';
 import 'package:moneto_app/presentation/widgets/build_expense_list.dart';
 import '../../business_logic/expense_cubit/expense_cubit.dart';
@@ -12,6 +13,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var localization = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -38,7 +40,7 @@ class HomeScreen extends StatelessWidget {
               MyFunctions(),
               context,
             ),
-            ExpenseError() => Center(child: Text('حدث خطأ ما')),
+            ExpenseError() => Center(child: Text('${localization?.translate('app_title')}')),
             ExpenseState() => throw UnimplementedError(),
           };
         },

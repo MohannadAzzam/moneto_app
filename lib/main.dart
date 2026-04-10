@@ -2,27 +2,45 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:moneto_app/business_logic/expense_cubit/expense_cubit.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:moneto_app/business_logic/locale_cubit/locale_cubit.dart';
 import 'package:moneto_app/constants/strings.dart';
 import 'package:moneto_app/core/routing/app_router.dart';
 
 void main() {
-  // يفضل تعريف الراوتر هنا وتمريره
+  WidgetsFlutterBinding.ensureInitialized();
+
   final AppRouter appRouter = AppRouter();
-  runApp(MonetoApp(appRouter: appRouter));
+  runApp(
+    BlocProvider(
+      create: (context) => LocaleCubit(),
+      child: MonetoApp(appRouter: appRouter),
+    ),
+  );
 }
 
 class MonetoApp extends StatelessWidget {
-  final AppRouter appRouter; // تأكد من وجود هذا السطر
+  final AppRouter appRouter; 
 
   const MonetoApp({super.key, required this.appRouter}); // والكونستركتور يتطلبه
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: appRouter.generateRoute, // استخدام الراوتر هنا
-      initialRoute: homeScreen,
+    return BlocBuilder<LocaleCubit, Locale>(
+      builder: (context, locale) {
+        return MaterialApp(
+          locale: locale,
+          supportedLocales: const [Locale('en'), Locale('ar')],
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          debugShowCheckedModeBanner: false,
+          onGenerateRoute: appRouter.generateRoute, // استخدام الراوتر هنا
+          initialRoute: homeScreen,
+        );
+      },
     );
   }
 }

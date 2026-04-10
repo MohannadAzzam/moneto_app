@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moneto_app/business_logic/expense_cubit/expense_cubit.dart';
+import 'package:moneto_app/core/localization/app_localizations.dart';
 import 'package:moneto_app/functions/my_functions.dart';
 import '../../core/theme/app_colors.dart';
 
@@ -10,8 +11,9 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MyFunctions myFunctions = MyFunctions();
+    var localization = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text("الإعدادات"), centerTitle: true),
+      appBar: AppBar(title: Text("${localization?.translate('settings')}"), centerTitle: true),
       body: ListView(
         children: [
           _buildSettingsSection("عام"),
@@ -29,7 +31,7 @@ class SettingsScreen extends StatelessWidget {
               color: Colors.black87,
             ),
             title: const Text("الوضع الليلي"),
-            activeColor: AppColors.primary,
+            activeThumbColor: AppColors.primary,
             value: false, // يجب ربطه بـ Cubit خاص بالثيم لاحقاً
             onChanged: (bool value) {
               // منطق تغيير الثيم
@@ -46,14 +48,13 @@ class SettingsScreen extends StatelessWidget {
                 context: context,
                 content:
                     "هل أنت متأكد من حذف جميع البيانات؟ لن تتمكن من استعادتها.", // newRoute: homeScreen
-            onConfirm: () {
-                            context.read<ExpenseCubit>().deleteMyDatabase();
-              Navigator.pop(context);
-ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text('تم مسح جميع البيانات')));
-              
-            },
+                onConfirm: () {
+                  context.read<ExpenseCubit>().deleteMyDatabase();
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('تم مسح جميع البيانات')),
+                  );
+                },
               );
               // إظهار Dialog تأكيد لمسح قاعدة البيانات بالكامل
             },
