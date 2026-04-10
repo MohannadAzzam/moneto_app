@@ -50,10 +50,6 @@ class SettingsScreen extends StatelessWidget {
             icon: Icons.info_outline,
             title: "عن التطبيق",
             onTap: () {
-              showBottomSheet(
-                context: context,
-                builder: (context) => Text('sdklfjkalefjsdifjweiofjo'),
-              );
             
             },
           ),
