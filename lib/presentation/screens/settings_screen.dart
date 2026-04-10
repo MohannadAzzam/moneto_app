@@ -23,11 +23,17 @@ class SettingsScreen extends StatelessWidget {
               // هنا يمكنك إضافة منطق تغيير العملة لاحقاً
             },
           ),
-          _buildSettingsItem(
-            icon: Icons.dark_mode_outlined,
-            title: "الوضع الليلي",
-            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-            onTap: () {},
+          SwitchListTile(
+            secondary: const Icon(
+              Icons.dark_mode_outlined,
+              color: Colors.black87,
+            ),
+            title: const Text("الوضع الليلي"),
+            activeColor: AppColors.primary,
+            value: false, // يجب ربطه بـ Cubit خاص بالثيم لاحقاً
+            onChanged: (bool value) {
+              // منطق تغيير الثيم
+            },
           ),
           const Divider(),
           _buildSettingsSection("البيانات"),
@@ -36,13 +42,19 @@ class SettingsScreen extends StatelessWidget {
             title: "مسح جميع البيانات",
             titleColor: Colors.red,
             onTap: () {
-              context.read<ExpenseCubit>().deleteMyDatabase();
               myFunctions.showDeleteDialog(
                 context: context,
-                content: "هل أنت متأكد من حذف جميع البيانات؟",
-                // newRoute: homeScreen
+                content:
+                    "هل أنت متأكد من حذف جميع البيانات؟ لن تتمكن من استعادتها.", // newRoute: homeScreen
+            onConfirm: () {
+                            context.read<ExpenseCubit>().deleteMyDatabase();
+              Navigator.pop(context);
+ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text('تم مسح جميع البيانات')));
+              
+            },
               );
-
               // إظهار Dialog تأكيد لمسح قاعدة البيانات بالكامل
             },
           ),
@@ -50,7 +62,19 @@ class SettingsScreen extends StatelessWidget {
             icon: Icons.info_outline,
             title: "عن التطبيق",
             onTap: () {
-            
+              showAboutDialog(
+                context: context,
+                applicationName: 'Moneto',
+                applicationVersion: '1.0.0',
+                applicationIcon: const Icon(
+                  Icons.wallet,
+                  color: AppColors.primary,
+                  size: 40,
+                ),
+                children: [
+                  const Text("تطبيق ذكي لإدارة مصاريفك الشخصية بكل سهولة."),
+                ],
+              );
             },
           ),
         ],

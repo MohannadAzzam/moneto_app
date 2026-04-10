@@ -43,6 +43,9 @@ Widget buildExpenseList(List<Expense> expenses,MyFunctions myFunctions, BuildCon
               direction: DismissDirection.horizontal,
               // background: myFunctions.showDeleteDialog(context, content: content),
               confirmDismiss: (direction) => myFunctions.showDeleteDialog(
+                onConfirm: () {
+                  
+                },
                 context :context,
                 content: "هل أنت متأكد من حذف هذا المصروف؟",
               ),
