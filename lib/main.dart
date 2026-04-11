@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:moneto_app/business_logic/locale_cubit/locale_cubit.dart';
 import 'package:moneto_app/constants/strings.dart';
+import 'package:moneto_app/core/localization/app_localizations_delegate.dart';
 import 'package:moneto_app/core/routing/app_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,6 +36,7 @@ class MonetoApp extends StatelessWidget {
           locale: locale,
           supportedLocales: const [Locale('en'), Locale('ar')],
           localizationsDelegates:  [
+            const AppLocalizationsDelegate(),
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
