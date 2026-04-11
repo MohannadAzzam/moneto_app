@@ -31,11 +31,13 @@ class MonetoApp extends StatelessWidget {
         return MaterialApp(
           locale: locale,
           supportedLocales: const [Locale('en'), Locale('ar')],
-          localizationsDelegates: const [
+          localizationsDelegates:  [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
+          
+          
           debugShowCheckedModeBanner: false,
           onGenerateRoute: appRouter.generateRoute, // استخدام الراوتر هنا
           initialRoute: homeScreen,

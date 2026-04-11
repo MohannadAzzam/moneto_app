@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart'; // للتعامل مع كلاس Locale و BuildContext
-import 'package:flutter_bloc/flutter_bloc.dart'; // لاستخدام الـ Cubit
-import 'package:shared_preferences/shared_preferences.dart'; // لحفظ اللغة في الجهاز
+import 'dart:ui';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LocaleCubit extends Cubit<Locale> {
-  LocaleCubit() : super(Locale('en')) {
+  LocaleCubit() : super(const Locale('ar')) {
     getSavedLanguage();
   }
 
@@ -14,9 +15,10 @@ class LocaleCubit extends Cubit<Locale> {
     emit(Locale(languageCode));
   }
 
+  // جلب اللغة المحفوظة عند تشغيل التطبيق
   Future<void> getSavedLanguage() async {
     final prefs = await SharedPreferences.getInstance();
-    final String cachedLanguageCode = prefs.getString('language') ?? 'en';
+    final String cachedLanguageCode = prefs.getString('language') ?? 'ar';
     emit(Locale(cachedLanguageCode));
   }
 }
