@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocaleCubit extends Cubit<Locale> {
-  LocaleCubit() : super(const Locale('ar')) {
+  LocaleCubit({required Locale locale}) : super(const Locale('ar')) {
     getSavedLanguage();
   }
 

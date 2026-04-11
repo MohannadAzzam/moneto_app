@@ -7,12 +7,11 @@ class AppLocalizations {
 
   AppLocalizations(this.locale); // هذا هو السطر الذي يحل المشكلة
 
-  static AppLocalizations? of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations);
-  }
+static AppLocalizations? of(BuildContext context) {
+  return Localizations.of<AppLocalizations>(context, AppLocalizations);
+}
 
-  late Map<String, String> _localizedStrings;
-
+Map<String, String> _localizedStrings = {};
  Future<bool> load() async {
   try {
     String jsonString = await rootBundle.loadString('assets/lang/${locale.languageCode}.json');
@@ -28,7 +27,7 @@ class AppLocalizations {
 }
 
 String translate(String key) {
-  // إذا كانت النصوص لم تُحمل بعد، أرجع المفتاح نفسه كـ String
-  if (_localizedStrings == null) return key; 
-  return _localizedStrings![key] ?? key;
-}}
+  // إذا لم يجد المفتاح، يعيد المفتاح نفسه بدلاً من null
+  return _localizedStrings[key] ?? key; 
+}
+}

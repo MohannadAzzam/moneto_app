@@ -12,6 +12,9 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     MyFunctions myFunctions = MyFunctions();
     var localization = AppLocalizations.of(context);
+    Locale currentLocale = Localizations.localeOf(context);
+
+    print("=========================== currentLocale: ${currentLocale.languageCode} ===========================");
     return Scaffold(
       appBar: AppBar(title: Text("${localization?.translate('settings')}"), centerTitle: true),
       body: ListView(

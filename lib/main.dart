@@ -6,14 +6,17 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:moneto_app/business_logic/locale_cubit/locale_cubit.dart';
 import 'package:moneto_app/constants/strings.dart';
 import 'package:moneto_app/core/routing/app_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  final String cachedLanguageCode = prefs.getString('language') ?? 'ar';
 
   final AppRouter appRouter = AppRouter();
   runApp(
     BlocProvider(
-      create: (context) => LocaleCubit(),
+      create: (context) => LocaleCubit(locale: Locale(cachedLanguageCode)), // تمرير اللغة المحفوظة إلى Cubit
       child: MonetoApp(appRouter: appRouter),
     ),
   );
