@@ -3,23 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:moneto_app/business_logic/expense_cubit/expense_cubit.dart';
+import 'package:moneto_app/core/localization/app_localizations.dart';
 import 'package:moneto_app/data/models/expense.dart';
 import 'package:moneto_app/functions/my_functions.dart';
 import 'package:moneto_app/presentation/widgets/build_expense_item.dart';
 import 'package:moneto_app/presentation/widgets/build_total_balanced_card.dart';
 
 Widget buildExpenseList(List<Expense> expenses,MyFunctions myFunctions, BuildContext context) {
+    var localization = AppLocalizations.of(context);
 
   return Column(
     children: [
-      buildTotalBalanceCard(expenses),
-      const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      buildTotalBalanceCard(expenses,context),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: Align(
           alignment: Alignment.centerRight,
           child: Text(
-            "المصاريف الأخيرة",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            "${localization?.translate('recent_expenses')}",
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
       ),
@@ -47,7 +49,7 @@ Widget buildExpenseList(List<Expense> expenses,MyFunctions myFunctions, BuildCon
                   
                 },
                 context :context,
-                content: "هل أنت متأكد من حذف هذا المصروف؟",
+                content: "${localization?.translate('delete_expense_confirmation')}",
               ),
               onDismissed: (_) {
                 context.read<ExpenseCubit>().deleteExpense(item.id!);

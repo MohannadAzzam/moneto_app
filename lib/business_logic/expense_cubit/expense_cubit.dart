@@ -51,12 +51,20 @@ class ExpenseCubit extends Cubit<ExpenseState> {
       emit(ExpenseError("فشل في تحديث البيانات"));
     }
   }
+Future<void> deleteMyDatabase() async {
+  try {
+    // 1. حذف من قاعدة البيانات
+    await dbHelper.deleteMyDatabase();
 
-  void deleteMyDatabase() async {
-    try {
-      await dbHelper.deleteMyDatabase();
-    } catch (e) {
-      emit(ExpenseError("فشل في حذف البيانات"));
-    }
+    // 2. إرسال حالة نجاح مع قائمة فارغة تماماً
+    // ملاحظة: تأكد من اسم الـ State (مثلاً ExpenseSuccess أو ExpenseLoaded)
+    emit(ExpenseLoaded(expenses: [])); 
+    
+    // 3. (اختياري) تأكيد إضافي بجلب البيانات مجدداً
+    await fetch(); 
+    
+  } catch (e) {
+    emit(ExpenseError("فشل في حذف البيانات"));
   }
+}
 }

@@ -7,7 +7,7 @@ class ExpenseLoading extends ExpenseState {}
 
 class ExpenseLoaded extends ExpenseState {
   final List<Expense> expenses;
-  ExpenseLoaded(this.expenses);
+  ExpenseLoaded( { required this.expenses});
 }
 
 class ExpenseError extends ExpenseState {

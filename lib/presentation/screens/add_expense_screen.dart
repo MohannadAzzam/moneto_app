@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moneto_app/core/localization/app_localizations.dart';
 import '../../business_logic/expense_cubit/expense_cubit.dart';
 import '../../data/models/expense.dart';
 import '../../core/theme/app_colors.dart';
@@ -36,10 +37,14 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var localization = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          isEditMode ? "تعديل مصروف" : "إضافة مصروف",
+          isEditMode
+              ? "${localization?.translate('edit_expense')}"
+              : "${localization?.translate('add_expense')}",
           style: const TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.white,
@@ -53,8 +58,8 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "ماذا صرفت؟",
+              Text(
+                "${localization?.translate('what_did_you_spend')}",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
@@ -63,7 +68,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
               TextFormField(
                 controller: _titleController,
                 decoration: InputDecoration(
-                  hintText: "مثلاً: غداء، بنزين، إنترنت",
+                  hintText: "${localization?.translate('description_hint')}",
                   filled: true,
                   fillColor: AppColors.bgCyan.withValues(alpha: 0.2),
                   border: OutlineInputBorder(
@@ -72,13 +77,14 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                   ),
                   prefixIcon: const Icon(Icons.description_outlined),
                 ),
-                validator: (value) =>
-                    value!.isEmpty ? "برجاء إدخال الوصف" : null,
+                validator: (value) => value!.isEmpty
+                    ? "${localization?.translate('description_error')}"
+                    : null,
               ),
 
               const SizedBox(height: 25),
-              const Text(
-                "المبلغ (NIS)",
+              Text(
+                "${localization?.translate('amount_label')}",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
@@ -103,8 +109,12 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                   ),
                 ),
                 validator: (value) {
-                  if (value!.isEmpty) return "برجاء إدخال المبلغ";
-                  if (double.tryParse(value) == null) return "أدخل رقم صحيح";
+                  if (value!.isEmpty) {
+                    return "${localization?.translate('amount_error')}";
+                  }
+                  if (double.tryParse(value) == null) {
+                    return "${localization?.translate('invalid_number_error')}";
+                  }
                   return null;
                 },
               ),
@@ -122,8 +132,8 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                     // shape: BorderRadius.circular(15),
                     elevation: 5,
                   ),
-                  child: const Text(
-                    "حفظ في المحفظة",
+                  child: Text(
+                    "${localization?.translate('save')}",
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.white,
@@ -147,7 +157,8 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         title: _titleController.text,
         amount: double.parse(_amountController.text),
         date: existingExpense?.date ?? DateTime.now().toString().split(' ')[0],
-        category: "عام",
+        category:
+            "${AppLocalizations.of(context)?.translate('general_category')}", // فئة افتراضية
       );
 
       if (isEditMode) {

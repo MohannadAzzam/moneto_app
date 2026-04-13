@@ -4,10 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocaleCubit extends Cubit<Locale> {
-  
-  LocaleCubit({required Locale locale}) : super(locale) 
-  
-  {
+  LocaleCubit({required Locale locale}) : super(locale) {
     getSavedLanguage();
   }
 
@@ -21,7 +18,7 @@ class LocaleCubit extends Cubit<Locale> {
   // جلب اللغة المحفوظة عند تشغيل التطبيق
   Future<void> getSavedLanguage() async {
     final prefs = await SharedPreferences.getInstance();
-    final String cachedLanguageCode = prefs.getString('language') ?? 'ar';
+    final String cachedLanguageCode = prefs.getString('language') ?? 'en';
     emit(Locale(cachedLanguageCode));
   }
 }
