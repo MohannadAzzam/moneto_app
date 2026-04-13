@@ -15,7 +15,7 @@ class ExpenseCubit extends Cubit<ExpenseState> {
       final data = await dbHelper.readData();
       // تحويل الـ List<Map> إلى List من الموديل بتاعنا
       List<Expense> expenses = data.map((e) => Expense.fromMap(e)).toList();
-      emit(ExpenseLoaded(expenses));
+      emit(ExpenseLoaded(expenses: expenses));
     } catch (e) {
       emit(ExpenseError("فشل في تحميل البيانات"));
     }
@@ -61,7 +61,7 @@ Future<void> deleteMyDatabase() async {
     emit(ExpenseLoaded(expenses: [])); 
     
     // 3. (اختياري) تأكيد إضافي بجلب البيانات مجدداً
-    await fetch(); 
+    // await fetch(); 
     
   } catch (e) {
     emit(ExpenseError("فشل في حذف البيانات"));
